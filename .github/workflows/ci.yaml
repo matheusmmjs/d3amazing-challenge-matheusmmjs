@@ -16,7 +16,7 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       #- run: go test -coverprofile=coverage.out
-      - run: go run ./app/src/main.go
+      #- run: go run ./app/src/main.go
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
