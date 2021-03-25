@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
@@ -8,14 +8,34 @@ services:
     container_name: app
     volumes:
       - ./app/src:/go/src/app
-    ports:
-      - '8080'
+    networks:
+      - network
+
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - network
+    depends_on:
+      - "app"
+
   nginx:
     build:
       context: ./nginx
     image: nginx:latest
     container_name: nginx
     ports:
-      - '80:80'
+      - "80:80"
     depends_on:
-      - 'app'
+      - "app"
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
